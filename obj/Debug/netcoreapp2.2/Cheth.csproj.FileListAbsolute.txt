@@ -1,0 +1,11 @@
+C:\Users\cheth\Documents\Programing Projects\Cheth\bin\Debug\netcoreapp2.2\Cheth.deps.json
+C:\Users\cheth\Documents\Programing Projects\Cheth\bin\Debug\netcoreapp2.2\Cheth.runtimeconfig.json
+C:\Users\cheth\Documents\Programing Projects\Cheth\bin\Debug\netcoreapp2.2\Cheth.runtimeconfig.dev.json
+C:\Users\cheth\Documents\Programing Projects\Cheth\bin\Debug\netcoreapp2.2\Cheth.dll
+C:\Users\cheth\Documents\Programing Projects\Cheth\bin\Debug\netcoreapp2.2\Cheth.pdb
+C:\Users\cheth\Documents\Programing Projects\Cheth\obj\Debug\netcoreapp2.2\Cheth.csprojAssemblyReference.cache
+C:\Users\cheth\Documents\Programing Projects\Cheth\obj\Debug\netcoreapp2.2\Cheth.csproj.CoreCompileInputs.cache
+C:\Users\cheth\Documents\Programing Projects\Cheth\obj\Debug\netcoreapp2.2\Cheth.AssemblyInfoInputs.cache
+C:\Users\cheth\Documents\Programing Projects\Cheth\obj\Debug\netcoreapp2.2\Cheth.AssemblyInfo.cs
+C:\Users\cheth\Documents\Programing Projects\Cheth\obj\Debug\netcoreapp2.2\Cheth.dll
+C:\Users\cheth\Documents\Programing Projects\Cheth\obj\Debug\netcoreapp2.2\Cheth.pdb
