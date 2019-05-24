@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Cheth
@@ -59,8 +57,6 @@ namespace Cheth
 
         private void CreateTransportNetwork()
         {
-            Console.WriteLine("Enter number of towns need to add");
-            string numberOfTwons = Console.ReadLine().Trim();
             Console.WriteLine("Enter routes separated by comma ex: AB5, BC4...");
             string routesTemp = Console.ReadLine().Trim();
             string routes = Regex.Replace(routesTemp, @"\s+", "");
@@ -73,8 +69,7 @@ namespace Cheth
             {
                 try
                 {
-                    logic.createNetwork(numberOfTwons);
-                    logic.processRoutes(routes);
+                    logic.ProcessRoutes(routes);
                 }
                 catch (Exception ex)
                 {
@@ -87,7 +82,7 @@ namespace Cheth
         {
             Console.WriteLine("Enter routes to get distance Ex: A-B-C");
             string journyTemp = Console.ReadLine().ToUpper();
-            string journy = Regex.Replace(journyTemp, @"\s+", "");
+            string journy = Regex.Replace(journyTemp, @"[\s-]+", "");
             Console.WriteLine("Press S if you want to submit");
             Console.WriteLine("Press any other key if you want to cancel");
             Console.WriteLine("Your option");
@@ -97,7 +92,7 @@ namespace Cheth
             {
                 try
                 {
-                    Console.WriteLine("Distance of route {0} : {1}",journy, logic.DistanceOfRoutes(journy));
+                    Console.WriteLine("Distance of route {0} : {1}", journy, logic.DistanceOfRoutes(journy));
                 }
                 catch (Exception ex)
                 {
@@ -117,7 +112,7 @@ namespace Cheth
             {
                 Console.WriteLine(ex.Message);
             }
-            
+
             Console.WriteLine("Press any key to go back to main menu");
             Console.ReadKey();
         }
@@ -143,7 +138,7 @@ namespace Cheth
             Console.WriteLine("The length of the shortest path from A to C");
             try
             {
-                Console.WriteLine("Distance of the shortest path : {0}",logic.ShortestRouteAtoC());
+                Console.WriteLine("Distance of the shortest path : {0}", logic.ShortestRouteAtoC());
             }
             catch (Exception ex)
             {

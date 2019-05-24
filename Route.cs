@@ -6,13 +6,18 @@ namespace Cheth
 {
     class Route
     {
-        public char DestinationTown;
-        public int Distance;
+        private int _distance;
 
-        public Route(char destinationCity, int distance)
+        public Town DestinationTown { get; }
+        public int Distance
         {
-            DestinationTown = destinationCity;
-            Distance = distance;
+            get { return _distance; }
+        }
+
+        public Route(Town destinationTown, int distance)
+        {
+            this.DestinationTown = destinationTown;
+            this._distance = distance;
         }
     }
 }

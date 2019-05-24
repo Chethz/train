@@ -6,42 +6,57 @@ namespace Cheth
 {
     class Town
     {
-        public char Name { get; set; }
+        private char _name;
+
+        public char Name
+        {
+            get { return _name; }
+        }
 
         //list of destinations
-        private List<Route> _destinationList;
+        private List<Route> _DestinationList = new List<Route>();
 
         public List<Route> DestinationList
         {
-            get { return _destinationList; }
+            get { return _DestinationList; }
         }
 
         //Constructor
         public Town(char name)
         {
-            Name = name;
-            _destinationList = new List<Route>();
+            _name = name;
+        }
+
+        public Town(string name)
+        {
+            if(!char.TryParse(name, out _name)) throw new Exception(ErrorMessages.InvalidInput);
         }
 
         //Add routes to _destinationList
-        public void addRoute(Town town, int distance)
+        //check for null values for town and negative values for distance
+        //check for existing route under same name
+        public void AddRoute(Town town, int distance)
         {
-            if(town == null || distance.Equals(null))
+            if(town == null || distance <= 0)
                 throw new Exception(ErrorMessages.InvalidDistanceOrTown);
-            var route = new Route(town.Name, distance);
-            _destinationList.Add(route);
+            if(IsRouteExists(town.Name))
+                throw new Exception(ErrorMessages.DestinationCityExist);
+            var route = new Route(town, distance);
+            _DestinationList.Add(route);
         }
 
         //check for existing routes
+        //use linq to filter data
         public bool IsRouteExists(char destinationTown)
         {
-            return _destinationList.Where(x => x.DestinationTown == destinationTown).FirstOrDefault() != null;
+            return DestinationList.Where(x => x.DestinationTown.Name == destinationTown).FirstOrDefault() != null;
         }
 
         //get distance for the routes
+        //use linq to filter data
         public int Distance(char destinationTown)
         {
-            return _destinationList.Where(x => x.DestinationTown == destinationTown).Select(x => x.Distance)
+            return DestinationList.Where(x => x.DestinationTown.Name == destinationTown).Select(x => x.Distance)
                 .FirstOrDefault();
         }
     }

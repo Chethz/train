@@ -11,77 +11,59 @@ namespace Cheth
         private RailNetwork _RailNetwork = new RailNetwork();
 
         //adding number of cities to the list depending on user input
-        public void createNetwork(string noOfCities)
-        {
-            try {
-                bool isNumber = int.TryParse(noOfCities, out int n);
-
-                if (!isNumber)
-                    throw new Exception(ErrorMessages.InvalidNoOfCitiest);
-                _RailNetwork.addTownsToRailMap(n);
-            } catch (Exception ex)
-            {
-                throw ex;
-            }
-            
-        }
+//        public void createNetwork(string noOfCities)
+//        {
+//            try {
+//                bool isNumber = int.TryParse(noOfCities, out int n);
+//
+//                if (!isNumber)
+//                    throw new Exception(ErrorMessages.InvalidNoOfCitiest);
+//                _RailNetwork.addTownsToRailMap(n);
+//            } catch (Exception ex)
+//            {
+//                throw ex;
+//            }
+//            
+//        }
 
         //add destination and distance to the list of town
-        public void addDestinations(char source, char destination, int distance)
-        {
-            Town sourceTown = null;
-            Town destinationTown = null;
-            try
-            {
-                foreach (var town in _RailNetwork.RailMapList)
-                {
-                    if (source == town.Name)
-                    {
-                        sourceTown = town;
-                    }
-
-                    if (destination == town.Name)
-                    {
-                        destinationTown = town;
-                    }
-                }
-                _RailNetwork.AddEdge(sourceTown, destinationTown, distance);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+//        public void addDestinations(char source, char destination, int distance)
+//        {
+//            Town sourceTown = null;
+//            Town destinationTown = null;
+//            try
+//            {
+//                foreach (var town in _RailNetwork.RailMapList)
+//                {
+//                    if (source == town.Name)
+//                    {
+//                        sourceTown = town;
+//                    }
+//
+//                    if (destination == town.Name)
+//                    {
+//                        destinationTown = town;
+//                    }
+//                }
+//                _RailNetwork.AddEdge(sourceTown.Name, destinationTown, distance);
+//            }
+//            catch (Exception ex)
+//            {
+//                throw ex;
+//            }
+//        }
 
 
         //Split user inputs by , and break them in to sores city, destination city and distance as per user input
-        public void processRoutes(string routes)
+        public void ProcessRoutes(string routes)
         {
-            char source= '\0';
-            char destination = '\0';
-            int distance = 0;
-
             try
             {
-                List<string> routeList = routes.Split(',').ToList<string>();
+                string[] routeArray = routes.Split(',');
 
-                foreach (var route in routeList)
+                foreach (var route in routeArray)
                 {
-                    char[] splitRoute = route.ToCharArray();
-
-                    for (int i = 0; i < splitRoute.Length; i++)
-                    {
-                        if (splitRoute.Length != 3)
-                            throw new Exception(ErrorMessages.InvalidRoute);
-                        if(!Char.IsLetter(splitRoute[0])|| !Char.IsLetter(splitRoute[1]))
-                            throw new Exception(ErrorMessages.InvalidSourceOrDestination);
-                        if(!Char.IsDigit(splitRoute[2]))
-                            throw new Exception(ErrorMessages.InvalidDistance);
-                        source = splitRoute[0];
-                        destination = splitRoute[1];
-                        distance = (int)Char.GetNumericValue(splitRoute[2]);
-                    }
-                    addDestinations(source, destination, distance);
+                    _RailNetwork.AddEdge(route);
                 }
             }
             catch (Exception ex)
@@ -131,12 +113,12 @@ namespace Cheth
             }
         }
 
-        public int NumberOfTripsWithMaximumStops(char souceTown, char destinationTown, int maxStops, int totalStops,
+        public int NumberOfTripsWithMaximumStops(char sourceTown, char destinationTown, int maxStops, int totalStops,
             int totalTrips)
         {
             if (totalStops <= maxStops)
             {
-                Town tempTown = _RailNetwork.GetTown(souceTown);
+                Town tempTown = _RailNetwork.GetTown(sourceTown);
                 if (tempTown == null)
                     throw new Exception(ErrorMessages.NoRouteFound);
 
@@ -148,7 +130,7 @@ namespace Cheth
                 {
                     foreach (var destinations in tempTown.DestinationList)
                     {
-                        totalTrips = NumberOfTripsWithMaximumStops(destinations.DestinationTown, destinationTown,
+                        totalTrips = NumberOfTripsWithMaximumStops(destinations.DestinationTown.Name, destinationTown,
                             maxStops, totalStops + 1, totalTrips);
                     }
                 }
@@ -197,9 +179,9 @@ namespace Cheth
             }
             else
             {
-                foreach (var town in tempTwon.DestinationList.Where(x => x.DestinationTown != lastTown))
+                foreach (var town in tempTwon.DestinationList.Where(x => x.DestinationTown.Name != lastTown))
                 {
-                    shortestDistance = ShortestRoute(town.DestinationTown, destiantionT, distance += town.Distance,
+                    shortestDistance = ShortestRoute(town.DestinationTown.Name, destiantionT, distance += town.Distance,
                         shortestDistance, tempTwon.Name);
                 }
             }
