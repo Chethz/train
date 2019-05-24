@@ -55,6 +55,7 @@ namespace Cheth
         //return town name
         public Town GetTown(char name)
         {
+            //eroe handig for null town
             return _railMap.Where(x => x.Name == name).FirstOrDefault();
         }
     }

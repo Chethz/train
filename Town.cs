@@ -11,6 +11,11 @@ namespace Cheth
         //list of destinations
         private List<Route> _destinationList;
 
+        public List<Route> DestinationList
+        {
+            get { return _destinationList; }
+        }
+
         //Constructor
         public Town(char name)
         {

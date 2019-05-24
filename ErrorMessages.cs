@@ -62,6 +62,10 @@ namespace Cheth
             get { return _NoRouteFound; }
         }
 
-
+        private static string _TownNotFound = "Invalid town name";
+        public static string TownNotFound
+        {
+            get { return _TownNotFound; }
+        }
     }
 }

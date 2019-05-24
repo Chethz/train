@@ -7,6 +7,7 @@ namespace Cheth
 {
     class Logic
     {
+        //to store vertise and edges to required vertices
         private RailNetwork _RailNetwork = new RailNetwork();
 
         //adding number of cities to the list depending on user input
@@ -53,7 +54,7 @@ namespace Cheth
         }
 
 
-        //Split user inputs by , and break them in to sourse city, destination city and distance as per user input
+        //Split user inputs by , and break them in to sores city, destination city and distance as per user input
         public void processRoutes(string routes)
         {
             char source= '\0';
@@ -89,6 +90,7 @@ namespace Cheth
             }            
         }
 
+        //Calculate distance of given routes
         public int DistanceOfRoutes(string journey)
         {
             try
@@ -98,8 +100,13 @@ namespace Cheth
                 char destinationTown = '\0';
                 char[] travelRoute = journey.ToCharArray();
 
+
                 for (int i = 0; i < travelRoute.Length-1; i++)
                 {
+                    //check for char is a character
+                    if(!Char.IsLetter(travelRoute[i]))
+                        throw new Exception(ErrorMessages.InvalidInput);
+                    
                     sourseTown = _RailNetwork.GetTown(travelRoute[i]);
                     if (travelRoute[i+1] >= travelRoute.Length)
                     {
@@ -124,6 +131,93 @@ namespace Cheth
             }
         }
 
+        public int NumberOfTripsWithMaximumStops(char souceTown, char destinationTown, int maxStops, int totalStops,
+            int totalTrips)
+        {
+            if (totalStops <= maxStops)
+            {
+                Town tempTown = _RailNetwork.GetTown(souceTown);
+                if (tempTown == null)
+                    throw new Exception(ErrorMessages.NoRouteFound);
+
+                if (tempTown.IsRouteExists(destinationTown))
+                {
+                    return totalTrips + 1;
+                }
+                else
+                {
+                    foreach (var destinations in tempTown.DestinationList)
+                    {
+                        totalTrips = NumberOfTripsWithMaximumStops(destinations.DestinationTown, destinationTown,
+                            maxStops, totalStops + 1, totalTrips);
+                    }
+                }
+            }
+
+            return totalTrips;
+        }
+
+        public int StartingAndEndCwithThreeStops()
+        {
+            try
+            {
+               int trips = NumberOfTripsWithMaximumStops('C', 'C', 3, 0, 0);
+               return trips;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int StartingAtAAndEndCwithFourStops()
+        {
+            try
+            {
+                int trips = NumberOfTripsWithMaximumStops('A', 'C', 4, 0, 0);
+                return trips;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int ShortestRoute(char sourceTown, char destiantionT, int distance, int shortestDistance,
+            char lastTown)
+        {
+            Town tempTwon = _RailNetwork.GetTown(sourceTown);
+            if (tempTwon == null)
+                throw new Exception(ErrorMessages.InvalidInput);
+            if (tempTwon.IsRouteExists(destiantionT))
+            {
+                distance += tempTwon.Distance(destiantionT);
+                shortestDistance = shortestDistance > distance || shortestDistance == 0 ? distance : shortestDistance;
+                return shortestDistance;
+            }
+            else
+            {
+                foreach (var town in tempTwon.DestinationList.Where(x => x.DestinationTown != lastTown))
+                {
+                    shortestDistance = ShortestRoute(town.DestinationTown, destiantionT, distance += town.Distance,
+                        shortestDistance, tempTwon.Name);
+                }
+            }
+
+            return shortestDistance;
+        }
+
+        public int ShortestRouteAtoC()
+        {
+            int shortestRoute = ShortestRoute('A', 'C', 0, 0, '\0');
+            return shortestRoute;
+        }
+
+        public int ShortestRouteBtoB()
+        {
+            int shortestRoute = ShortestRoute('B', 'B', 0, 0, '\0');
+            return shortestRoute;
+        }
 
     }
 }

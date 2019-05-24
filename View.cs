@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Cheth
 {
@@ -17,9 +18,9 @@ namespace Cheth
                 Console.WriteLine("Enter 2 to print distance of routes");
                 Console.WriteLine("Enter 3 to print number of trips starting at C and ending at C with maximum of 3 stops");
                 Console.WriteLine("Enter 4 to print number of trips starting at A and ending at C with exactly of 4 stops");
-                Console.WriteLine("Enter 4 to print length of the shortest route from A to C");
-                Console.WriteLine("Enter 5 to print length of the shortest route from B to B");
-                Console.WriteLine("Enter 6 to print number of different routes from C to C with a distance of less than 30");
+                Console.WriteLine("Enter 5 to print length of the shortest route from A to C");
+                Console.WriteLine("Enter 6 to print length of the shortest route from B to B");
+                Console.WriteLine("Enter 7 to print number of different routes from C to C with a distance of less than 30");
                 Console.WriteLine("\n-------------------------------------------------------------------------");
                 Console.WriteLine("Your option : ");
 
@@ -39,9 +40,12 @@ namespace Cheth
                         StartingAtAEndC();
                         break;
                     case "5":
-                        getShortestPath();
+                        getShortestPathAtoC();
                         break;
                     case "6":
+                        getShortestPathBtoB();
+                        break;
+                    case "7":
                         differentRoutesCtoC();
                         break;
                     default:
@@ -58,7 +62,8 @@ namespace Cheth
             Console.WriteLine("Enter number of towns need to add");
             string numberOfTwons = Console.ReadLine().Trim();
             Console.WriteLine("Enter routes separated by comma ex: AB5, BC4...");
-            string routes = Console.ReadLine().Trim();
+            string routesTemp = Console.ReadLine().Trim();
+            string routes = Regex.Replace(routesTemp, @"\s+", "");
             Console.WriteLine("Press S if you want to submit");
             Console.WriteLine("Press any other key if you want to cancel");
             Console.WriteLine("Your option");
@@ -81,7 +86,8 @@ namespace Cheth
         private void getDistance()
         {
             Console.WriteLine("Enter routes to get distance Ex: A-B-C");
-            string journy = Console.ReadLine();
+            string journyTemp = Console.ReadLine().ToUpper();
+            string journy = Regex.Replace(journyTemp, @"\s+", "");
             Console.WriteLine("Press S if you want to submit");
             Console.WriteLine("Press any other key if you want to cancel");
             Console.WriteLine("Your option");
@@ -91,7 +97,7 @@ namespace Cheth
             {
                 try
                 {
-                    logic.DistanceOfRoutes(journy);
+                    Console.WriteLine("Distance of route {0} : {1}",journy, logic.DistanceOfRoutes(journy));
                 }
                 catch (Exception ex)
                 {
@@ -102,17 +108,64 @@ namespace Cheth
 
         private void startingAtCEndC()
         {
-
+            Console.WriteLine("The number of trips starting at C and ending at C with a maximum of 3 stops");
+            try
+            {
+                Console.WriteLine("Number of trips : {0} ", logic.StartingAndEndCwithThreeStops());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
+            Console.WriteLine("Press any key to go back to main menu");
+            Console.ReadKey();
         }
 
         private void StartingAtAEndC()
         {
+            Console.WriteLine("The number of trips starting at A and ending at C with a maximum of 4 stops");
+            try
+            {
+                Console.WriteLine("Number of trips : {0} ", logic.StartingAndEndCwithThreeStops());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
+            Console.WriteLine("Press any key to go back to main menu");
+            Console.ReadKey();
         }
 
-        private void getShortestPath()
+        private void getShortestPathAtoC()
         {
+            Console.WriteLine("The length of the shortest path from A to C");
+            try
+            {
+                Console.WriteLine("Distance of the shortest path : {0}",logic.ShortestRouteAtoC());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            Console.WriteLine("Press any key to go back to main menu");
+            Console.ReadKey();
+        }
 
+        private void getShortestPathBtoB()
+        {
+            Console.WriteLine("The length of the shortest path from B to B");
+            try
+            {
+                Console.WriteLine("Distance of the shortest path : {0}", logic.ShortestRouteBtoB());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            Console.WriteLine("Press any key to go back to main menu");
+            Console.ReadKey();
         }
 
         private void differentRoutesCtoC()
